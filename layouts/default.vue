@@ -22,6 +22,22 @@
             <v-list-item-title v-text="item.title" />
           </v-list-item-content>
         </v-list-item>
+
+        <!-- Auth -->
+        <v-list-item :to="{ name: 'login' }" v-if="!$auth.loggedIn">
+          <v-list-item-action>
+            <v-icon>mdi-login</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>Login</v-list-item-content>
+        </v-list-item>
+        <v-list-item @click="$auth.logout()" v-if="$auth.loggedIn">
+          <v-list-item-action>
+            <v-icon>mdi-logout</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Logout</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
     <v-app-bar :clipped-left="clipped" fixed app>
@@ -78,9 +94,9 @@ export default {
           to: '/'
         },
         {
-          icon: 'mdi-chart-bubble',
-          title: 'Inspire',
-          to: '/inspire'
+          icon: 'mdi-death-star',
+          title: 'My campaigns',
+          to: { name: 'campaigns' }
         }
       ],
       miniVariant: false,
