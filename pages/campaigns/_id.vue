@@ -4,43 +4,49 @@
       v-card-text
         v-row
           v-col(cols="12" sm="6")
-            h1.display-1 Rebellion in the rim team roster
+            v-text-field(v-model="form.name" label="Rebellion in the rim campaign name")
           v-col
             v-text-field(v-model="form.act" label="Act" type="number" min="1")
           v-col
             v-text-field(v-model="form.turn" label="Turn" type="number" min="1")
 
-    v-row(v-if="isOwner || isInFaction(faction)" v-for="faction in form.factions" :key="faction._id")
+    v-row(v-if="isOwner || isInFaction(faction)" v-for="faction in form.factions" :key="faction._id" align="stretch")
       v-col(cols="12" sm="6")
-        v-text-field(label="Team name" v-model="faction.name")
-        v-select(label="Grand admiral" v-model="faction.grandAdmiral" :items="faction.players" item-text="username" item-value="_id")
-        v-list
-          v-subheader Players
-          v-list-item(v-for="player in faction.players" :key="player._id")
-            v-list-item-content {{ player.username }}
+        v-card
+          v-img(:src="`/${faction.side}.webp`" aspect-ratio="4" contain gradient="to top, rgba(0,0,0,0.9), rgba(0,0,0,0.4)")
+            v-card-text
+              v-text-field(label="Team name" v-model="faction.name")
+              v-select(label="Grand admiral" v-model="faction.grandAdmiral" :items="faction.players" item-text="username" item-value="_id")
+          v-card-text
+            v-list
+              v-subheader Players
+              v-list-item(v-for="player in faction.players" :key="player._id")
+                v-list-item-content {{ player.username }}
 
       v-col(cols="12" sm="6")
-        v-row
-          v-col(cols="4")
-            v-text-field(label="VP: Act" v-model="faction.points.act" type="number")
-          v-col(cols="4")
-            v-text-field(label="VP: Campaign" v-model="faction.points.total" type="number")
-          v-col(cols="4")
-            v-img(:src="`/${faction.side}.webp`")
-          v-col(cols="4")
-            v-text-field(label="Ally" v-model="faction.resources.ally" type="number")
-          v-col(cols="4")
-            v-text-field(label="Destiny" v-model="faction.resources.destiny" type="number")
-          v-col(cols="4")
-            v-text-field(label="Diplomats" v-model="faction.resources.diplomats" type="number")
-          v-col(cols="4")
-            v-text-field(label="Repair yards" v-model="faction.resources.repairYards" type="number")
-          v-col(cols="4")
-            v-text-field(label="Resources" v-model="faction.resources.resources" type="number")
-          v-col(cols="4")
-            v-text-field(label="Skilled spacers" v-model="faction.resources.skilledSpacers" type="number")
-          v-col(cols="4")
-            v-text-field(label="Spynet" v-model="faction.resources.spynet" type="number")
+        v-card
+          v-card-title
+            v-row
+              v-col(cols="6")
+                v-text-field(label="VP: Act" v-model="faction.points.act" type="number")
+              v-col(cols="6")
+                v-text-field(label="VP: Campaign" v-model="faction.points.total" type="number")
+          v-card-text
+            v-row
+              v-col(cols="6")
+                v-text-field(label="Ally" v-model="faction.resources.ally" type="number")
+              v-col(cols="6")
+                v-text-field(label="Destiny" v-model="faction.resources.destiny" type="number")
+              v-col(cols="6")
+                v-text-field(label="Diplomats" v-model="faction.resources.diplomats" type="number")
+              v-col(cols="6")
+                v-text-field(label="Repair yards" v-model="faction.resources.repairYards" type="number")
+              v-col(cols="4")
+                v-text-field(label="Resources" v-model="faction.resources.resources" type="number")
+              v-col(cols="4")
+                v-text-field(label="Skilled spacers" v-model="faction.resources.skilledSpacers" type="number")
+              v-col(cols="4")
+                v-text-field(label="Spynet" v-model="faction.resources.spynet" type="number")
 
     v-card
       v-card-title Systems

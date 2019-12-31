@@ -3,7 +3,7 @@
     v-toolbar(color="primary" dark flat relative)
       v-toolbar-title My campaigns
       template(v-slot:extension)
-        v-btn(fab color="secondary" bottom right absolute)
+        v-btn(fab color="secondary" bottom right absolute :to="{ name: 'campaigns-create' }")
           v-icon mdi-plus
     v-list
       v-list-item(
