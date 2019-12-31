@@ -1,22 +1,23 @@
 <template lang="pug">
   div
-    v-row
-      v-col(cols="12" sm="6")
-        h1.title Rebellion in the rim team roster
-      v-col
-        v-text-field(v-model="form.act" label="Act" type="number")
-      v-col
-        v-text-field(v-model="form.turn" label="Turn" type="number")
+    v-card
+      v-card-text
+        v-row
+          v-col(cols="12" sm="6")
+            h1.display-1 Rebellion in the rim team roster
+          v-col
+            v-text-field(v-model="form.act" label="Act" type="number" min="1")
+          v-col
+            v-text-field(v-model="form.turn" label="Turn" type="number" min="1")
 
-    v-row(v-for="faction in form.factions" :key="faction._id")
+    v-row(v-if="isOwner || isInFaction(faction)" v-for="faction in form.factions" :key="faction._id")
       v-col(cols="12" sm="6")
         v-text-field(label="Team name" v-model="faction.name")
-        v-text-field(label="Grand admiral" v-model="faction.grandAdmiral.username")
-        v-list(two-line)
+        v-select(label="Grand admiral" v-model="faction.grandAdmiral" :items="faction.players" item-text="username" item-value="_id")
+        v-list
           v-subheader Players
           v-list-item(v-for="player in faction.players" :key="player._id")
-            v-list-item-content
-              v-list-item-title {{ player.username }}
+            v-list-item-content {{ player.username }}
 
       v-col(cols="12" sm="6")
         v-row
@@ -47,25 +48,22 @@
         v-text-field(v-model="search" append-icon="mdi-magnify" label="search" single-line hide-details)
       v-data-table(:headers="headers" :items="form.systems" :items-per-page="30" :search="search")
         template(v-slot:item.faction="{ item }")
-          v-radio-group(row)
-            v-radio(
-              v-for="(owner, i) in systemOwnership"
-              :key="i"
-              :label="owner.label"
-              :value="owner.value"
-              :color="owner.color"
-              v-model="item.faction"
-            )
-          v-btn(icon @click="item.faction = null")
-            v-icon mdi-delete
+          v-select(v-model="item.faction" :items="systemOwnership" item-text="label" item-value="value" clearable)
         template(v-slot:item.baseDefenseObjective="{ item }")
           v-text-field(v-model="item.baseDefenseObjective")
         template(v-slot:item.completedCampaignObjective="{ item }")
           v-text-field(v-model="item.completedCampaignObjective")
+
+    v-btn(color="primary" @click="save")
+      v-icon mdi-save
+      | Save
 </template>
 
 <script>
 import { mapState } from 'vuex'
+import cloneDeep from 'lodash/cloneDeep'
+import includes from 'lodash/includes'
+
 export default {
   data: () => ({
     headers: [
@@ -91,18 +89,30 @@ export default {
   computed: {
     ...mapState('campaigns', {
       campaign: (state) => state.campaign
-    })
+    }),
+    isOwner() {
+      return this.campaign.user._id === this.$auth.user._id
+    }
   },
 
   watch: {
     campaign(value) {
-      this.form = { ...value }
+      this.form = cloneDeep(value)
     }
   },
 
   fetch({ store, params }) {
     if (params.payload) store.commit('campaigns/setCampaign', params.payload)
     store.dispatch('campaigns/show', params.id)
+  },
+
+  methods: {
+    save() {
+      this.$store.dispatch('campaigns/save', this.form)
+    },
+    isInFaction(faction) {
+      return includes(faction.players, this.$auth.user._id)
+    }
   }
 }
 </script>
