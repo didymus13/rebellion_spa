@@ -19,12 +19,8 @@ export const actions = {
   },
 
   async show({ commit }, id) {
-    const [campaign, fleets] = await Promise.all([
-      this.$axios.$get(`/campaigns/${id}`),
-      this.$axios.$get(`/campaigns/${id}/fleets`)
-    ])
+    const [campaign] = await Promise.all([this.$axios.$get(`/campaigns/${id}`)])
     commit('setCampaign', campaign)
-    commit('fleets/setFleets', fleets, { root: true })
   },
 
   async save({ state, dispatch }, payload) {
@@ -43,5 +39,10 @@ export const actions = {
   async create({ state, dispatch }, payload) {
     const campaign = await this.$axios.$post('/campaigns', payload)
     await dispatch('show', campaign._id)
+  },
+
+  async delete({ dispatch }, id) {
+    await this.$axios.$delete(`/campaigns/${id}`)
+    await dispatch('find')
   }
 }

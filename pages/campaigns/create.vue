@@ -5,9 +5,9 @@
         v-text-field(v-model="form.name" label="New campaign name" required)
 
     v-row
-      v-col(v-for="(faction, i) in form.factions" :key="i" cols="12" sm="6")
+      v-col(v-for="(faction, i) in [form.empire, form.rebels]" :key="i" cols="12" sm="6")
         v-card
-          v-img(:src="`/${faction.side}.webp`" aspect-ratio="4" contain gradient="to top, rgba(0,0,0,0.9), rgba(0,0,0,0.4)")
+          v-img(:src="faction.img" contain aspect-ratio="5" gradient="to bottom left, rgba(255,255,255,1), rgba(255,255,255,0)")
             v-card-title
               v-text-field(v-model="faction.name" label="Faction name")
           v-card-text
@@ -22,7 +22,7 @@
               item-text="username"
               label="Players"
               return-object
-              :search-input.sync="search[faction.side]"
+              :search-input.sync="faction.search"
             )
             v-select(v-model="faction.grandAdmiral" :items="faction.players" required label="Grand admiral" item-text="username" return-object)
 
@@ -40,17 +40,23 @@ export default {
     valid: true,
     form: {
       name: '',
-      factions: [
-        {
-          name: 'The Galactic Empire',
-          side: 'empire',
-          grandAdmiral: '',
-          players: []
-        },
-        { name: 'The Rebellion', side: 'rebels', grandAdmiral: '', players: [] }
-      ]
-    },
-    search: { empire: '', rebels: '' }
+      empire: {
+        name: 'The Galactic Empire',
+        side: 'empire',
+        grandAdmiral: '',
+        players: [],
+        img: '/empire.webp',
+        search: ''
+      },
+      rebels: {
+        name: 'The Rebellion',
+        side: 'rebels',
+        grandAdmiral: '',
+        players: [],
+        img: '/rebels.webp',
+        search: ''
+      }
+    }
   }),
 
   computed: {
@@ -60,20 +66,27 @@ export default {
     payload() {
       return {
         name: this.form.name,
-        factions: map(this.form.factions, (faction) => {
-          return {
-            name: faction.name,
-            players: map(faction.players, '_id'),
-            side: faction.side,
-            gradAdmiral: faction.grandAdmiral._id
-          }
-        })
+        rebels: {
+          name: this.form.rebels.name,
+          players: map(this.form.rebels.players, '_id'),
+          grandAdmiral: this.form.rebels.grandAdmiral._id
+        },
+        empire: {
+          name: this.form.empire.name,
+          players: map(this.form.empire.players, '_id'),
+          grandAdmiral: this.form.empire.grandAdmiral._id
+        }
       }
     }
   },
 
   watch: {
-    'search.empire': {
+    'form.empire.search': {
+      handler(value) {
+        this.$store.dispatch('users/find', { username: value })
+      }
+    },
+    'form.rebels.search': {
       handler(value) {
         this.$store.dispatch('users/find', { username: value })
       }
