@@ -6,11 +6,16 @@ v-row
         v-card-text
           v-text-field(label="Team name" v-model="value.name")
           v-select(label="Grand admiral" v-model="value.grandAdmiral" :items="value.players" item-text="username" item-value="_id")
-      v-card-text
-        v-list
-          v-subheader Players
-          v-list-item(v-for="player in value.players" :key="player._id")
-            v-list-item-content {{ player.username }}
+
+      v-list
+        v-subheader Fleets
+        v-list-item(v-for="fleet in value.fleets" :key="fleet._id" :to="{ name: 'campaigns-fleets-id', params: { id: fleet._id } }")
+          v-list-item-content {{ fleet.name || fleet.player.name }}
+        v-list-item(v-if="!value.fleets")
+          v-list-item-content There are no fleets in this faction yet.
+      v-card-actions
+        v-spacer
+        v-btn(:to="{ name: 'campaigns-id-fleets-create', params: { campaign: value._id, payload: value } }") Create Your fleet
 
   v-col(cols="12" sm="6")
     v-card
