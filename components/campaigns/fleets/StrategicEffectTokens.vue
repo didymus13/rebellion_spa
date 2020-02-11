@@ -6,15 +6,20 @@
     v-card-text
       v-row
         v-col
-          v-text-field(type="number" label="Ally")
+          v-text-field(type="number" label="Ally" v-model.number="value.ally")
         v-col
-          v-text-field(type="number" label="Destiny")
+          v-text-field(type="number" label="Destiny" v-model="value.destiny")
         v-col
-          v-text-field(type="number" label="Spynet")
+          v-text-field(type="number" label="Spynet" v-model="value.spynet")
 </template>
 
 <script>
-export default {}
+export default {
+  props: {
+    value: {
+      type: Object,
+      default: () => ({ ally: 0, destiny: 0, spynet: 0 })
+    }
+  }
+}
 </script>
-
-<style lang="css" scoped></style>

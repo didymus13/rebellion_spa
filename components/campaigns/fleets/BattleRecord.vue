@@ -2,14 +2,17 @@
   v-card
     v-toolbar(flat dark)
       v-toolbar-title Battle record
+      v-spacer
+      v-btn(icon)
+        v-icon mdi-plus-circle
 
-    v-data-table(:headers="headers" :items="items")
+    v-data-table(:headers="headers" :items="value")
 </template>
 
 <script>
 export default {
   props: {
-    items: { type: Array, default: () => [] }
+    value: { type: Array, default: () => [] }
   },
 
   data() {

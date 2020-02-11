@@ -41,12 +41,6 @@ v-row
             v-text-field(label="Skilled spacers" v-model="value.resources.skilledSpacers" type="number")
           v-col(cols="4")
             v-text-field(label="Spynet" v-model="value.resources.spynet" type="number")
-
-      v-card-actions
-        v-spacer
-        v-btn(color="primary" @click="$emit('save')")
-          v-icon mdi-content-save
-          | Save
 </template>
 
 <script>

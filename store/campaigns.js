@@ -1,6 +1,7 @@
 export const state = () => ({
   campaigns: [],
-  campaign: {}
+  campaign: {},
+  loading: false
 })
 
 export const mutations = {
@@ -10,6 +11,9 @@ export const mutations = {
 
   setCampaign(state, campaign) {
     state.campaign = campaign
+  },
+  setLoading(state, loading) {
+    state.loading = loading
   }
 }
 
@@ -23,9 +27,16 @@ export const actions = {
     commit('setCampaign', campaign)
   },
 
-  async save({ state, dispatch }, payload) {
+  async save({ state, dispatch, commit }, payload) {
     const action = state.campaign._id ? 'update' : 'create'
-    await dispatch(action, payload)
+    try {
+      commit('setLoading', true)
+      await dispatch(action, payload)
+    } catch (err) {
+      throw err
+    } finally {
+      commit('setLoading', false)
+    }
   },
 
   async update({ dispatch, state }, payload) {

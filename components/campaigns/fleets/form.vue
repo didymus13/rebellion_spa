@@ -2,14 +2,15 @@
   #fleet-form
     v-row
       v-col
-        v-text-field(disabled :value="$auth.user.name" label="Player name")
+        v-text-field(disabled :value="$auth.user.name || $auth.user.email" label="Player name")
       v-col
-        v-text-field(label="Fleet name")
+        v-text-field(label="Fleet name" v-model="value.name")
+          
     v-row
       v-col
-        v-select(label="Faction")
+        v-select(label="Faction" :items="factions" item-text="label" v-model="value.faction")
       v-col
-        v-select(label="Fleet condition")
+        v-select(label="Fleet condition" v-model="value.condition")
 
     v-row
       v-col
@@ -21,11 +22,11 @@
 
     v-row
       v-col
-        fleet-commander
+        fleet-commander(v-model="value.commander")
 
     v-row
       v-col
-        strategic-effect-tokens
+        strategic-effect-tokens(v-model="value.tokens")
 
     v-row
       v-col
@@ -34,6 +35,9 @@
     v-row
       v-col
         squadrons(v-model="value.squadrons")
+
+    v-btn(fab fixed bottom right color="primary" :loading="loading")
+      v-icon mdi-content-save
 </template>
 
 <script>
@@ -57,7 +61,45 @@ export default {
   },
 
   props: {
-    value: { type: Object, default: () => ({}) }
+    value: {
+      _id: null,
+      type: Object,
+      default: () => ({
+        name: '',
+        user: {},
+        faction: '',
+        condition: '',
+        objectives: {
+          assault: '',
+          defense: '',
+          navigation: ''
+        },
+        battleRecord: [],
+        commander: {
+          name: '',
+          xp: 0,
+          abilities: [{ name: '', xp: 0 }, {}, {}, {}]
+        },
+        tokens: {
+          ally: 0,
+          destiny: 0,
+          spynet: 0
+        },
+        ships: [],
+        squadrons: []
+      })
+    }
+  },
+
+  data: () => ({
+    loading: false
+  }),
+
+  computed: {
+    factions: () => [
+      { label: 'Empire', value: 'empire' },
+      { label: 'Rebels', value: 'rebels' }
+    ]
   }
 }
 </script>

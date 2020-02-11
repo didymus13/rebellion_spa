@@ -10,8 +10,8 @@
           v-col
             v-text-field(v-model="form.turn" label="Turn" type="number" min="1")
 
-    faction-sheet(v-model="form.rebels" img="/rebels.webp" @save="save")
-    faction-sheet(v-model="form.empire" img="/empire.webp" @save="save")
+    faction-sheet(v-model="form.rebels" img="/rebels.webp")
+    faction-sheet(v-model="form.empire" img="/empire.webp")
 
     v-card
       v-card-title Systems
@@ -25,11 +25,9 @@
           v-text-field(v-model="item.baseDefenseObjective")
         template(v-slot:item.completedCampaignObjective="{ item }")
           v-text-field(v-model="item.completedCampaignObjective")
-      v-card-actions
-        v-spacer
-        v-btn(color="primary" @click="save")
-          v-icon mdi-content-save
-          | Save
+
+    v-btn(fab fixed bottom right color="primary" :loading="loading" @click="save")
+      v-icon mdi-content-save
 </template>
 
 <script>
@@ -66,7 +64,8 @@ export default {
 
   computed: {
     ...mapState('campaigns', {
-      campaign: (state) => state.campaign
+      campaign: (state) => state.campaign,
+      loading: (state) => state.loading
     })
   },
 

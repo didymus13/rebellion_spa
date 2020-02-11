@@ -1,8 +1,6 @@
 <template lang="pug">
-  v-container(fluid)
-    v-card
-      v-card-title
-        v-text-field(v-model="form.name" label="New campaign name" required)
+  #campaign-create
+    v-text-field(v-model="form.name" label="New campaign name" required)
 
     v-row
       v-col(v-for="(faction, i) in [form.empire, form.rebels]" :key="i" cols="12" sm="6")
@@ -26,10 +24,8 @@
             )
             v-select(v-model="faction.grandAdmiral" :items="faction.players" required label="Grand admiral" item-text="username" return-object)
 
-      v-card-actions
-        v-btn(color="primary" @click="save")
-          v-icon mdi-save
-          | Save
+    v-btn(@click="save" icon fab absolute right)
+      v-icon mdi-content-save
 </template>
 
 <script>

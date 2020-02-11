@@ -2,11 +2,15 @@
   v-card
     v-toolbar(flat dark)
       v-toolbar-title Squadrons
+      v-spacer
+      v-btn(icon)
+        v-icon mdi-plus-circle
 
     v-data-table(:headers="headers" :items="value")
 </template>
 
 <script>
+import sumBy from 'lodash/sumBy'
 export default {
   props: {
     value: { type: Array, default: () => [] }
@@ -21,7 +25,7 @@ export default {
       { label: 'Scarred', value: 'isScarred' }
     ],
     total() {
-      return 0
+      return sumBy(this.value, 'points') || 0
     }
   }
 }

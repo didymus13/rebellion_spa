@@ -5,17 +5,20 @@
     v-card-text
       v-row
         v-col
-          v-text-field(label="Assault" :value="value.assault")
+          v-text-field(label="Assault" v-model="value.assault")
         v-col
-          v-text-field(label="Defense" :value="value.defense")
+          v-text-field(label="Defense" v-model="value.defense")
         v-col
-          v-text-field(label="Navigation" :value="value.navigation")
+          v-text-field(label="Navigation" v-model="value.navigation")
 </template>
 
 <script>
 export default {
   props: {
-    value: { type: Object, default: () => ({}) }
+    value: {
+      type: Object,
+      default: () => ({ assault: '', defense: '', navigation: '' })
+    }
   }
 }
 </script>

@@ -75,7 +75,10 @@
       </v-list>
     </v-navigation-drawer>
     <v-footer :fixed="fixed" app>
-      <span>&copy; 2019</span>
+      <span>
+        &copy; 2020. Star Wars: Armada is property of Fantasy Flight Games. No
+        copyright infringement is intended.
+      </span>
     </v-footer>
   </v-app>
 </template>
