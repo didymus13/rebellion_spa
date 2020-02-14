@@ -2,15 +2,15 @@
   #fleet-form
     v-row
       v-col
-        v-text-field(disabled :value="$auth.user.name || $auth.user.email" label="Player name")
+        v-text-field(:value="$auth.user.name || $auth.user.email" disabled label="Player name")
       v-col
         v-text-field(label="Fleet name" v-model="value.name")
-          
+
     v-row
       v-col
         v-select(label="Faction" :items="factions" item-text="label" v-model="value.faction")
       v-col
-        v-select(label="Fleet condition" v-model="value.condition")
+        v-select(label="Fleet condition" v-model="value.condition" :items="conditions" item-text="label" clearable)
 
     v-row
       v-col
@@ -36,7 +36,7 @@
       v-col
         squadrons(v-model="value.squadrons")
 
-    v-btn(fab fixed bottom right color="primary" :loading="loading")
+    v-btn(fab fixed bottom right color="primary" :loading="loading" @click="$emit('save')")
       v-icon mdi-content-save
 </template>
 
@@ -61,44 +61,20 @@ export default {
   },
 
   props: {
-    value: {
-      _id: null,
-      type: Object,
-      default: () => ({
-        name: '',
-        user: {},
-        faction: '',
-        condition: '',
-        objectives: {
-          assault: '',
-          defense: '',
-          navigation: ''
-        },
-        battleRecord: [],
-        commander: {
-          name: '',
-          xp: 0,
-          abilities: [{ name: '', xp: 0 }, {}, {}, {}]
-        },
-        tokens: {
-          ally: 0,
-          destiny: 0,
-          spynet: 0
-        },
-        ships: [],
-        squadrons: []
-      })
-    }
+    value: { type: Object, required: true },
+    loading: { type: Boolean, default: false }
   },
-
-  data: () => ({
-    loading: false
-  }),
 
   computed: {
     factions: () => [
       { label: 'Empire', value: 'empire' },
       { label: 'Rebels', value: 'rebels' }
+    ],
+
+    conditions: () => [
+      { label: 'Low morale', value: 'low-morale' },
+      { label: 'Low fuel', value: 'low-fuel' },
+      { label: 'Low supplies', value: 'low-supplies' }
     ]
   }
 }
