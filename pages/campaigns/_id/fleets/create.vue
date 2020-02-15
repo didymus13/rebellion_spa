@@ -59,6 +59,7 @@ export default {
           payload: this.fleet,
           campaign: this.campaign
         })
+        this.$toast.success('Fleet created')
         this.$router.push({
           name: 'campaigns-id',
           params: { id: this.campaign._id }

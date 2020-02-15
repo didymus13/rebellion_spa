@@ -67,7 +67,7 @@ export default {
   computed: {
     factions: () => [
       { label: 'Empire', value: 'empire' },
-      { label: 'Rebels', value: 'rebels' }
+      { label: 'Rebels', value: 'rebel' }
     ],
 
     conditions: () => [
