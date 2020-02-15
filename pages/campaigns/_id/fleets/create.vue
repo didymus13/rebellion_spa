@@ -27,7 +27,7 @@ export default {
       commander: {
         name: '',
         xp: 0,
-        abilities: [{ name: '', xp: 0 }, {}, {}, {}]
+        abilities: [{ name: '', xp: 0 }]
       },
       tokens: {
         ally: 0,

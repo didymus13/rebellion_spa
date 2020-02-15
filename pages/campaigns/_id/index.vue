@@ -10,8 +10,8 @@
           v-col
             v-text-field(v-model="form.turn" label="Turn" type="number" min="1")
 
-    faction-sheet(v-model="form.rebels" img="/rebels.webp")
-    faction-sheet(v-model="form.empire" img="/empire.webp")
+    faction-sheet(v-model="form.rebels" :fleets="rebel" img="/rebels.webp")
+    faction-sheet(v-model="form.empire" :fleets="empire" img="/empire.webp")
 
     v-card
       v-card-title Systems
@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 import cloneDeep from 'lodash/cloneDeep'
 import includes from 'lodash/includes'
 import FactionSheet from '@/components/campaigns/faction_form'
@@ -66,7 +66,11 @@ export default {
     ...mapState('campaigns', {
       campaign: (state) => state.campaign,
       loading: (state) => state.loading
-    })
+    }),
+    ...mapState('fleets', {
+      fleets: (state) => state.fleets
+    }),
+    ...mapGetters('fleets', ['rebel', 'empire'])
   },
 
   watch: {

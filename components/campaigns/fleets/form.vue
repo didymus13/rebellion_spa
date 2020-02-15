@@ -8,7 +8,7 @@
 
     v-row
       v-col
-        v-select(label="Faction" :items="factions" item-text="label" v-model="value.faction")
+        v-select(label="Faction" :items="factions" item-text="label" v-model="value.faction" :disabled="exists")
       v-col
         v-select(label="Fleet condition" v-model="value.condition" :items="conditions" item-text="label" clearable)
 
@@ -18,7 +18,7 @@
 
     v-row
       v-col
-        battle-record(:items="value.battles")
+        battle-record(v-model="value.battles")
 
     v-row
       v-col
@@ -36,7 +36,7 @@
       v-col
         squadrons(v-model="value.squadrons")
 
-    v-btn(fab fixed bottom right color="primary" :loading="loading" @click="$emit('save')")
+    v-btn(v-if="canSave" fab fixed bottom right color="primary" :loading="loading" @click="$emit('save')")
       v-icon mdi-content-save
 </template>
 
@@ -48,7 +48,6 @@ import StrategicEffectTokens from '@/components/campaigns/fleets/StrategicEffect
 import Ships from '@/components/campaigns/fleets/Ships'
 import Squadrons from '@/components/campaigns/fleets/Squadrons'
 import FleetCommander from '@/components/campaigns/fleets/FleetCommander'
-
 export default {
   components: {
     Objectives,
@@ -75,7 +74,18 @@ export default {
       { label: 'Low morale', value: 'low-morale' },
       { label: 'Low fuel', value: 'low-fuel' },
       { label: 'Low supplies', value: 'low-supplies' }
-    ]
+    ],
+
+    exists() {
+      return !!this.value._id
+    },
+
+    canSave() {
+      return (
+        !this.exists ||
+        (this.$auth.loggedIn && this.value.player === this.$auth.user._id)
+      )
+    }
   }
 }
 </script>

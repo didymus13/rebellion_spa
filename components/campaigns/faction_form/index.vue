@@ -9,11 +9,15 @@ v-row
 
       v-list
         v-subheader Fleets
-        v-list-item(v-for="fleet in value.fleets" :key="fleet._id" :to="{ name: 'campaigns-fleets-id', params: { id: fleet._id } }")
+        v-list-item(
+          v-for="fleet in fleets"
+          :key="fleet._id"
+          :to="{ name: 'campaigns-id-fleets-fleetId', params: { id: fleet.campaign, fleetId: fleet._id, payload: fleet } }"
+        )
           v-list-item-content {{ fleet.name || fleet.player.name }}
-        v-list-item(v-if="!value.fleets")
+        v-list-item(v-if="fleets.length < 1")
           v-list-item-content There are no fleets in this faction yet.
-      v-card-actions
+      v-card-actions(v-if="!hasPlayerFleet")
         v-spacer
         v-btn(:to="{ name: 'campaigns-id-fleets-create', params: { campaign: value._id, payload: value } }") Create Your fleet
 
@@ -44,10 +48,29 @@ v-row
 </template>
 
 <script>
+import filter from 'lodash/filter'
 export default {
   props: {
     value: { type: Object, required: true },
-    img: { type: String, required: true }
+    img: { type: String, required: true },
+    fleets: { type: Array, default: () => [] }
+  },
+
+  computed: {
+    hasPlayerFleet() {
+      if (!this.$auth.logged) return false
+      const userFleets = filter(
+        this.fleets,
+        (fleet) => fleet.player === this.$auth.user._id
+      )
+      return userFleets.length > 0
+    }
+  },
+
+  methods: {
+    isPlayerFleet(fleet) {
+      return this.$auth.loggedIn && fleet.player === this.$auth.user._id
+    }
   }
 }
 </script>

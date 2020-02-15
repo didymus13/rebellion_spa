@@ -18,13 +18,24 @@ export const mutations = {
 }
 
 export const actions = {
-  async find({ commit }, params) {
-    commit('setCampaigns', await this.$axios.$get('/campaigns', params))
+  async find({ commit, state }, params) {
+    try {
+      commit('setLoading', true)
+      commit('setCampaigns', await this.$axios.$get('/campaigns', params))
+    } catch (err) {
+      throw err
+    } finally {
+      commit('setLoading', false)
+    }
   },
 
   async show({ commit }, id) {
-    const [campaign] = await Promise.all([this.$axios.$get(`/campaigns/${id}`)])
+    const [campaign, fleets] = await Promise.all([
+      this.$axios.$get(`/campaigns/${id}`),
+      this.$axios.$get(`/campaigns/${id}/fleets`)
+    ])
     commit('setCampaign', campaign)
+    commit('fleets/setFleets', fleets, { root: true })
   },
 
   async save({ state, dispatch, commit }, payload) {

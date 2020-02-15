@@ -18,11 +18,11 @@ export default {
 
   computed: {
     headers: () => [
-      { label: 'Ship type / Name', value: 'name' },
-      { label: 'Upgrades', value: 'upgrades' },
-      { label: 'Points', value: 'points' },
-      { label: 'Veteran', value: 'isVeteran' },
-      { label: 'Scarred', value: 'isScarred' }
+      { text: 'Squadron type / Name', value: 'name' },
+      { text: 'Upgrades', value: 'upgrades' },
+      { text: 'Points', value: 'points' },
+      { text: 'Veteran', value: 'isVeteran' },
+      { text: 'Scarred', value: 'isScarred' }
     ],
     total() {
       return sumBy(this.value, 'points') || 0
