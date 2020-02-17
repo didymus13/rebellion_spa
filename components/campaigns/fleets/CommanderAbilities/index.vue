@@ -1,24 +1,37 @@
 <template lang="pug">
-  v-card
-    v-toolbar(flat dark)
+  div
+    v-toolbar.grey.lighten-2(flat)
       v-toolbar-title Commander abilities
       v-spacer
-      v-btn(icon @click="value.push({})")
-        v-icon mdi-plus-circle
+      v-dialog(v-model="dialog" max-width="500px")
+        template(v-slot:activator="{ on }")
+          v-btn(icon v-on="on")
+            v-icon mdi-plus-circle
 
-    v-card-text
-      v-row
-        v-col(cols="6" v-for="(ability, i) in value" :key="i")
-          commander-ability(v-model="value[i]" @delete="value.splice(i,1)")
+        commander-ability(@add="add")
+
+    commander-ability-list(v-model="value")
 </template>
 
 <script>
 import CommanderAbility from '@/components/campaigns/fleets/CommanderAbilities/CommanderAbility'
+import CommanderAbilityList from '@/components/campaigns/fleets/CommanderAbilities/CommanderAbilityList'
 export default {
-  components: { CommanderAbility },
+  components: { CommanderAbility, CommanderAbilityList },
 
   props: {
     value: { type: Array, default: () => [] }
+  },
+
+  data: () => ({
+    dialog: false
+  }),
+
+  methods: {
+    add(form) {
+      this.value.push({ ...form })
+      this.dialog = false
+    }
   }
 }
 </script>

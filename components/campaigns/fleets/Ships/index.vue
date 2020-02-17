@@ -25,8 +25,7 @@ export default {
   },
 
   data: () => ({
-    dialog: false,
-    form: {}
+    dialog: false
   }),
 
   computed: {
