@@ -23,8 +23,8 @@
 
           v-card-actions
             v-spacer
-            v-btn(@click="resetForm" type="reset" color="secondary" text) Reset
             v-btn(@click="add" color="primary" text) Add
+
     v-data-table(:headers="headers" :items="value")
 </template>
 
