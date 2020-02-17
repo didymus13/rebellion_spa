@@ -74,7 +74,7 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-    <v-footer :fixed="fixed" app>
+    <v-footer app class="caption">
       <span>
         &copy; 2020. Star Wars: Armada is property of Fantasy Flight Games. No
         copyright infringement is intended.
@@ -89,7 +89,6 @@ export default {
     return {
       clipped: false,
       drawer: false,
-      fixed: false,
       items: [
         {
           icon: 'mdi-apps',
