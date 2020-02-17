@@ -1,13 +1,13 @@
 <template lang="pug">
-  #campaign-create
-    v-text-field(v-model="form.name" label="New campaign name" required)
+  v-form#campaign-create(v-model="valid")
+    v-text-field(v-model="form.name" label="New campaign name" required :rules="[rules.required]")
 
     v-row
       v-col(v-for="(faction, i) in [form.empire, form.rebels]" :key="i" cols="12" sm="6")
         v-card
           v-img(:src="faction.img" contain aspect-ratio="5" gradient="to bottom left, rgba(255,255,255,1), rgba(255,255,255,0)")
             v-card-title
-              v-text-field(v-model="faction.name" label="Faction name")
+              v-text-field(v-model="faction.name" label="Faction name" required :rules="[rules.required]")
           v-card-text
             v-autocomplete(
               required
@@ -22,9 +22,9 @@
               return-object
               :search-input.sync="faction.search"
             )
-            v-select(v-model="faction.grandAdmiral" :items="faction.players" required label="Grand admiral" item-text="username" return-object)
+            v-select(v-model="faction.grandAdmiral" :items="faction.players"  required :rules="[rules.required]" label="Grand admiral" item-text="username" return-object)
 
-    v-btn(@click="save" icon fab absolute right)
+    v-btn(@click="save" color="primary" :loading="loading" :disabled="!valid" fab absolute right)
       v-icon mdi-content-save
 </template>
 
@@ -34,6 +34,7 @@ import map from 'lodash/map'
 export default {
   data: () => ({
     valid: true,
+    loading: false,
     form: {
       name: '',
       empire: {
@@ -52,6 +53,9 @@ export default {
         img: '/rebels.webp',
         search: ''
       }
+    },
+    rules: {
+      required: (value) => !!value || 'Required.'
     }
   }),
 
@@ -91,11 +95,19 @@ export default {
 
   methods: {
     async save() {
-      await this.$store.dispatch('campaigns/create', this.payload)
-      this.$router.push({
-        name: 'campaigns-id',
-        params: { id: this.$store.state.campaigns.campaign._id }
-      })
+      try {
+        this.loading = true
+        await this.$store.dispatch('campaigns/create', this.payload)
+        this.$toast.success('Campaign created')
+        this.$router.push({
+          name: 'campaigns-id',
+          params: { id: this.$store.state.campaigns.campaign._id }
+        })
+      } catch (err) {
+        this.$toast.error(err)
+      } finally {
+        this.loading = false
+      }
     }
   }
 }

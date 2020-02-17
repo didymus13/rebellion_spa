@@ -16,8 +16,8 @@ v-row
           :to="{ name: 'campaigns-id-fleets-fleetId', params: { id: fleet.campaign, fleetId: fleet._id, payload: fleet } }"
         )
           v-list-item-content
-            v-list-item-title {{ fleet.name || fleet.player.name }}
-            v-list-item-subtitle {{ fleet.player.name }}
+            v-list-item-title ({{ fleet.total }}) {{ fleet.name }}
+            v-list-item-subtitle {{ fleet.commander.name }}
         v-list-item(v-if="fleets.length < 1")
           v-list-item-content There are no fleets in this faction yet.
       v-card-actions(v-if="!hasPlayerFleet")

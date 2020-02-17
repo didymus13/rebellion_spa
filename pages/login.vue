@@ -6,9 +6,10 @@
           v-toolbar-title Login
         v-card-text
           v-form(v-model="valid")
-            v-text-field(label="Login" v-model="email" prepend-icon="mdi-account")
-            v-text-field(type="password" label="Password" v-model="password" prepend-icon="mdi-lock")
+            v-text-field(label="Login" v-model="email" prepend-icon="mdi-account" :rules="[ rules.required ]" required)
+            v-text-field(type="password" label="Password" v-model="password" prepend-icon="mdi-lock" :rules="[ rules.required ]" required)
             v-card-actions
+              v-btn(:to="{ name: 'register'}" nuxt text color="secondary") Register
               v-spacer
               v-btn(:disabled="!valid" color="primary" @click="login") Login
 </template>
@@ -18,7 +19,10 @@ export default {
   data: () => ({
     valid: true,
     email: '',
-    password: ''
+    password: '',
+    rules: {
+      required: (value) => !!value || 'Required.'
+    }
   }),
 
   methods: {
