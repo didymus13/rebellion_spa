@@ -1,6 +1,6 @@
 <template lang="pug">
   #fleet-update
-    fleet-form(v-model="form" :loading="loading" @save="update")
+    fleet-form(v-model="form" :loading="loading" :dirty="isDirty" @save="update")
 </template>
 
 <script>
@@ -12,7 +12,8 @@ export default {
   components: { FleetForm },
 
   data: () => ({
-    form: {}
+    form: {},
+    isDirty: false
   }),
 
   computed: {
@@ -25,6 +26,12 @@ export default {
       deep: true,
       handler(value) {
         this.form = cloneDeep(value)
+      }
+    },
+    form: {
+      deep: true,
+      handler(newForm, oldForm) {
+        this.isDirty = true
       }
     }
   },
@@ -40,6 +47,7 @@ export default {
       try {
         await this.$store.dispatch('fleets/update', this.form)
         this.$toast.success('Fleet updated')
+        this.isDirty = false
       } catch (err) {
         this.$toast.error(err)
       }

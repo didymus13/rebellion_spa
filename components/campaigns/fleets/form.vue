@@ -36,8 +36,9 @@
       v-col
         squadrons(v-model="value.squadrons")
 
-    v-btn(v-if="canSave" fab fixed bottom right color="primary" :loading="loading" @click="$emit('save')")
-      v-icon mdi-content-save
+    v-fab-transition(v-if="canSave")
+      v-btn(v-show="dirty" fab fixed bottom right color="primary" :loading="loading" @click="$emit('save')")
+        v-icon mdi-content-save
 </template>
 
 <script>
@@ -61,7 +62,8 @@ export default {
 
   props: {
     value: { type: Object, required: true },
-    loading: { type: Boolean, default: false }
+    loading: { type: Boolean, default: false },
+    dirty: { type: Boolean, default: true }
   },
 
   computed: {

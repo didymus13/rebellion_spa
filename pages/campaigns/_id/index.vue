@@ -26,8 +26,9 @@
         template(v-slot:item.completedCampaignObjective="{ item }")
           v-text-field(v-model="item.completedCampaignObjective")
 
-    v-btn(fab fixed bottom right color="primary" :loading="loading" @click="save")
-      v-icon mdi-content-save
+    v-fab-transition
+      v-btn(v-show="isDirty" fab fixed bottom right color="primary" :loading="loading" @click="save")
+        v-icon mdi-content-save
 </template>
 
 <script>
@@ -59,7 +60,8 @@ export default {
       { label: 'Imperial presence', value: 'empire', color: 'indigo accent-1' },
       { label: 'Rebel presence', value: 'rebel', color: 'red accent-1' },
       { label: 'Rebel base', value: 'rebel-base', color: 'red' }
-    ]
+    ],
+    isDirty: false
   }),
 
   computed: {
@@ -80,6 +82,12 @@ export default {
       handler(value) {
         this.form = cloneDeep(value)
       }
+    },
+    form: {
+      deep: true,
+      handler(value) {
+        this.isDirty = true
+      }
     }
   },
 
@@ -89,9 +97,16 @@ export default {
   },
 
   methods: {
-    save() {
-      this.$store.dispatch('campaigns/save', this.form)
+    async save() {
+      try {
+        await this.$store.dispatch('campaigns/save', this.form)
+        this.isDirty = false
+        this.$toast.success('Campaign updated')
+      } catch (err) {
+        this.$toast.error(err)
+      }
     },
+
     isInFaction(faction) {
       return includes(faction.players, this.$auth.user._id)
     }
