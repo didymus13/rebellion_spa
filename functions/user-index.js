@@ -1,5 +1,5 @@
-import User from '../../models/User'
-require('../../config/db')
+import User from '../models/User'
+require('../config/db')
 
 export async function handler(event, context, callback) {
   try {
