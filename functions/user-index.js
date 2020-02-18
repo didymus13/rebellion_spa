@@ -1,4 +1,4 @@
-import User from '@/models/User'
+import User from '../../models/User'
 require('../../config/db')
 
 export async function handler(event, context, callback) {
