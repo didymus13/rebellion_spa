@@ -1,7 +1,7 @@
 import User from '../models/User'
 require('../config/db')
 
-export async function handler(event, context, callback) {
+exports.handler = async (event, context, callback) => {
   try {
     const users = await User.find({})
     return callback(null, {
