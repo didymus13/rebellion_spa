@@ -1,6 +1,9 @@
 exports.handler = (event, ctx, callback) => {
+  const content = {
+    message: 'Foo Bar Baz'
+  }
   return callback(null, {
     statusCode: 200,
-    body: 'Foo Bar Baz'
+    body: JSON.stringify(content)
   })
 }
