@@ -1,6 +1,6 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose'
+import passportLocalMongoose from 'passport-local-mongoose'
 const Schema = mongoose.Schema
-const passportLocalMongoose = require('passport-local-mongoose')
 
 const UserSchema = new Schema(
   {
