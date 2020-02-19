@@ -99,6 +99,11 @@ export default {
           icon: 'mdi-death-star',
           title: 'My campaigns',
           to: { name: 'campaigns' }
+        },
+        {
+          icon: 'mdi-accounts',
+          title: 'Users',
+          to: { name: 'users' }
         }
       ],
       miniVariant: false,
