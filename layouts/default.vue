@@ -10,6 +10,7 @@
       <v-list>
         <v-list-item
           v-for="(item, i) in items"
+          v-if="item.show"
           :key="i"
           :to="item.to"
           router
@@ -24,21 +25,13 @@
         </v-list-item>
 
         <!-- Auth -->
-        <v-list-item
-          @click="$auth.loginWith('auth0', { params: { prompt: 'login' } })"
-          v-if="!$auth.loggedIn"
-        >
-          <v-list-item-action>
-            <v-icon>mdi-login</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>Login as someone else</v-list-item-content>
-        </v-list-item>
         <v-list-item @click="$auth.loginWith('auth0')" v-if="!$auth.loggedIn">
           <v-list-item-action>
             <v-icon>mdi-login</v-icon>
           </v-list-item-action>
           <v-list-item-content>Login</v-list-item-content>
         </v-list-item>
+
         <v-list-item @click="$auth.logout()" v-if="$auth.loggedIn">
           <v-list-item-action>
             <v-icon>mdi-logout</v-icon>
@@ -98,22 +91,24 @@ export default {
     return {
       clipped: false,
       drawer: null,
-      items: [
-        {
-          icon: 'mdi-apps',
-          title: 'Welcome',
-          to: '/'
-        },
-        {
-          icon: 'mdi-death-star',
-          title: 'My campaigns',
-          to: { name: 'campaigns' }
-        }
-      ],
       miniVariant: false,
       right: true,
       rightDrawer: false,
       title: 'Vuetify.js'
+    }
+  },
+
+  computed: {
+    items() {
+      return [
+        { icon: 'mdi-apps', title: 'Welcome', to: '/', show: true },
+        {
+          icon: 'mdi-death-star',
+          title: 'My campaigns',
+          to: { name: 'campaigns' },
+          show: this.$auth.loggedIn
+        }
+      ]
     }
   }
 }
