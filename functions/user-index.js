@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+const mongoose = require('mongoose')
 // import User from '../models/User'
 //
 mongoose.connect(process.env.DB_DSN, {
@@ -12,6 +12,6 @@ exports.handler = (event, ctx) => {
   // const users = await User.find({})
   return {
     statusCode: 200,
-    body: JSON.stringify({ message: 'It imports mongoose' })
+    body: JSON.stringify({ message: 'It imports mongoose', db: mongoose.db })
   }
 }
