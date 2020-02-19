@@ -4,6 +4,8 @@
 
 <script>
 export default {
+  auth: true,
+
   fetch({ store, params }) {
     store.dispatch('campaigns/find', params)
   }

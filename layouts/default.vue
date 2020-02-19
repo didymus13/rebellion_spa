@@ -24,7 +24,16 @@
         </v-list-item>
 
         <!-- Auth -->
-        <v-list-item :to="{ name: 'login' }" v-if="!$auth.loggedIn">
+        <v-list-item
+          @click="$auth.loginWith('auth0', { params: { prompt: 'login' } })"
+          v-if="!$auth.loggedIn"
+        >
+          <v-list-item-action>
+            <v-icon>mdi-login</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>Login as someone else</v-list-item-content>
+        </v-list-item>
+        <v-list-item @click="$auth.loginWith('auth0')" v-if="!$auth.loggedIn">
           <v-list-item-action>
             <v-icon>mdi-login</v-icon>
           </v-list-item-action>
@@ -88,7 +97,7 @@ export default {
   data() {
     return {
       clipped: false,
-      drawer: false,
+      drawer: null,
       items: [
         {
           icon: 'mdi-apps',
