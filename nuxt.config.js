@@ -59,20 +59,20 @@ export default {
   },
 
   auth: {
+    redirect: {
+      login: '/',
+      callback: '/auth/signed-in'
+    },
     strategies: {
-      local: {
-        endpoints: {
-          login: { url: '/auth/login', method: 'post', propertyName: 'token' },
-          logout: false,
-          user: { url: '/auth/me', method: 'get', propertyName: 'user' }
-        }
+      auth0: {
+        domain: process.env.AUTH_DOMAIN,
+        client_id: process.env.AUTH_CLIENT_ID,
+        audience: process.env.AUTH_AUDIENCE
       }
     }
   },
 
-  router: {
-    middleware: ['auth']
-  },
+  router: {},
 
   /*
    ** vuetify module configuration
