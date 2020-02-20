@@ -1,3 +1,3 @@
-<template>
-  <p>Signing you in...</p>
+<template lang="pug">
+  p Signing you in...
 </template>

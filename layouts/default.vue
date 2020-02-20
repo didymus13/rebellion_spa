@@ -86,6 +86,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   data() {
     return {
@@ -99,6 +100,9 @@ export default {
   },
 
   computed: {
+    ...mapState('auth', {
+      loggedIn: (state) => state.loggedIn
+    }),
     items() {
       return [
         { icon: 'mdi-apps', title: 'Welcome', to: '/', show: true },
@@ -106,9 +110,20 @@ export default {
           icon: 'mdi-death-star',
           title: 'My campaigns',
           to: { name: 'campaigns' },
-          show: this.$auth.loggedIn
+          show: this.loggedIn
         }
       ]
+    }
+  },
+
+  watch: {
+    loggedIn: {
+      immediate: true,
+      handler() {
+        if (this.$auth.loggedIn) {
+          this.$axios.$post('/private/users/sync', this.$auth.user)
+        }
+      }
     }
   }
 }
