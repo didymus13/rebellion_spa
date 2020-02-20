@@ -1,5 +1,6 @@
 <template lang="pug">
   v-form#campaign-create(v-model="valid")
+    div {{ $auth.user }}
     v-text-field(v-model="form.name" label="New campaign name" required :rules="[rules.required]")
 
     v-row

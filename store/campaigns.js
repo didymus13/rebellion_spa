@@ -21,7 +21,10 @@ export const actions = {
   async find({ commit, state }, params) {
     try {
       commit('setLoading', true)
-      commit('setCampaigns', await this.$axios.$get('/campaigns', params))
+      commit(
+        'setCampaigns',
+        await this.$axios.$get('/private/campaigns', params)
+      )
     } catch (err) {
       throw err
     } finally {
@@ -31,8 +34,8 @@ export const actions = {
 
   async show({ commit }, id) {
     const [campaign, fleets] = await Promise.all([
-      this.$axios.$get(`/campaigns/${id}`),
-      this.$axios.$get(`/campaigns/${id}/fleets`)
+      this.$axios.$get(`/private/campaigns/${id}`),
+      this.$axios.$get(`/private/campaigns/${id}/fleets`)
     ])
     commit('setCampaign', campaign)
     commit('fleets/setFleets', fleets, { root: true })
@@ -52,19 +55,19 @@ export const actions = {
 
   async update({ dispatch, state }, payload) {
     const campaign = await this.$axios.$put(
-      `/campaigns/${state.campaign._id}`,
+      `/private/campaigns/${state.campaign._id}`,
       payload
     )
     await dispatch('show', campaign._id)
   },
 
   async create({ state, dispatch }, payload) {
-    const campaign = await this.$axios.$post('/campaigns', payload)
+    const campaign = await this.$axios.$post('/private/campaigns', payload)
     await dispatch('show', campaign._id)
   },
 
   async delete({ dispatch }, id) {
-    await this.$axios.$delete(`/campaigns/${id}`)
+    await this.$axios.$delete(`/private/campaigns/${id}`)
     await dispatch('find')
   }
 }

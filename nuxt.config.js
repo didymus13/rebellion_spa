@@ -66,7 +66,8 @@ export default {
     strategies: {
       auth0: {
         domain: process.env.AUTH_DOMAIN,
-        client_id: process.env.AUTH_CLIENT_ID
+        client_id: process.env.AUTH_CLIENT_ID,
+        audience: process.env.AUTH_AUDIENCE
       }
     }
   },
