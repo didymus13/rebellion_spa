@@ -33,12 +33,10 @@ export const actions = {
   },
 
   async show({ commit }, id) {
-    const [campaign, fleets] = await Promise.all([
-      this.$axios.$get(`/private/campaigns/${id}`),
-      this.$axios.$get(`/private/campaigns/${id}/fleets`)
+    const [campaign] = await Promise.all([
+      this.$axios.$get(`/private/campaigns/${id}`)
     ])
     commit('setCampaign', campaign)
-    commit('fleets/setFleets', fleets, { root: true })
   },
 
   async save({ state, dispatch, commit }, payload) {
