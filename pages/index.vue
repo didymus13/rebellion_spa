@@ -1,5 +1,6 @@
 <template>
   <v-layout column justify-center align-center>
+    <v-img src="/Armada-Logo.png" max-width="500px" />
     <v-flex xs12 sm8 md6>
       <v-card>
         <v-card-title class="headline">

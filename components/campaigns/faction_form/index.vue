@@ -5,7 +5,7 @@ v-row
       v-img(:src="img" aspect-ratio="4" contain gradient="to top, rgba(255,255,255,0.6), rgba(255,255,255,1)")
         v-card-text
           v-text-field(label="Team name" v-model="value.name")
-          v-select(label="Grand admiral" v-model="value.grandAdmiral" :items="value.players" item-text="username" item-value="_id")
+          v-select(label="Grand admiral" v-model="value.grandAdmiral" :items="value.players" item-text="nickname" item-value="_id")
 
       v-list
         v-subheader Fleets

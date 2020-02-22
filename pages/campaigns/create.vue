@@ -1,6 +1,5 @@
 <template lang="pug">
   v-form#campaign-create(v-model="valid")
-    div {{ $auth.user }}
     v-text-field(v-model="form.name" label="New campaign name" required :rules="[rules.required]")
 
     v-row
@@ -18,12 +17,12 @@
               v-model="faction.players"
               clearable
               :items="users"
-              item-text="username"
+              item-text="nickname"
               label="Players"
               return-object
               :search-input.sync="faction.search"
             )
-            v-select(v-model="faction.grandAdmiral" :items="faction.players"  required :rules="[rules.required]" label="Grand admiral" item-text="username" return-object)
+            v-select(v-model="faction.grandAdmiral" :items="faction.players"  required :rules="[rules.required]" label="Grand admiral" item-text="nickname" return-object)
 
     v-btn(@click="save" color="primary" :loading="loading" :disabled="!valid" fab absolute right)
       v-icon mdi-content-save
@@ -32,6 +31,7 @@
 <script>
 import { mapState } from 'vuex'
 import map from 'lodash/map'
+import debounce from 'lodash/debounce'
 export default {
   data: () => ({
     valid: true,
@@ -84,14 +84,26 @@ export default {
   watch: {
     'form.empire.search': {
       handler(value) {
-        this.$store.dispatch('users/find', { username: value })
+        this.handleUserSearch(value)
       }
     },
     'form.rebels.search': {
       handler(value) {
-        this.$store.dispatch('users/find', { username: value })
+        this.handleUserSearch(value)
       }
     }
+  },
+
+  created() {
+    this.handleUserSearch = debounce(
+      (value) =>
+        this.$store.dispatch('users/find', {
+          email: value,
+          page: 1,
+          pageSize: 5
+        }),
+      300
+    )
   },
 
   methods: {
