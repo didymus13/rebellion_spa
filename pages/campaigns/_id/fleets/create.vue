@@ -48,11 +48,25 @@ export default {
     })
   },
 
-  fetch({ store, params }) {
+  fetch({ store, params, query }) {
     store.dispatch('campaigns/show', params.id)
   },
 
+  mounted() {
+    this.fleet.faction = this.setFleetFaction()
+  },
+
   methods: {
+    setFleetFaction(faction) {
+      switch (this.$route.query.faction) {
+        case 'rebel':
+          return 'rebel'
+        case 'empire':
+          return 'empire'
+      }
+      return null
+    },
+
     async save() {
       try {
         await this.$store.dispatch('fleets/create', {

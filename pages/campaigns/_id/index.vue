@@ -10,8 +10,8 @@
           v-col
             v-text-field(v-model="form.turn" label="Turn" type="number" min="1")
 
-    faction-sheet(v-model="form.rebels" :fleets="rebel" img="/rebels.webp")
-    faction-sheet(v-model="form.empire" :fleets="empire" img="/empire.webp")
+    faction-sheet(v-model="form.rebels" :fleets="rebel" img="/rebels.webp" faction="rebel")
+    faction-sheet(v-model="form.empire" :fleets="empire" img="/empire.webp" faction="empire")
 
     v-card
       v-card-title Systems

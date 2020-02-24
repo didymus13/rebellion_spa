@@ -22,7 +22,7 @@ v-row
           v-list-item-content There are no fleets in this faction yet.
       v-card-actions(v-if="!hasPlayerFleet")
         v-spacer
-        v-btn(:to="{ name: 'campaigns-id-fleets-create', params: { campaign: value._id, payload: value } }") Create Your fleet
+        v-btn(:to="{ name: 'campaigns-id-fleets-create', params: { campaign: value._id, payload: value }, query: { faction } }" nuxt) Create Your fleet
 
   v-col(cols="12" sm="6")
     v-card
@@ -56,7 +56,8 @@ export default {
   props: {
     value: { type: Object, required: true },
     img: { type: String, required: true },
-    fleets: { type: Array, default: () => [] }
+    fleets: { type: Array, default: () => [] },
+    faction: { type: String }
   },
 
   computed: {

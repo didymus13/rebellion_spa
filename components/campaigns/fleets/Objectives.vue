@@ -5,11 +5,11 @@
     v-card-text
       v-row
         v-col
-          v-text-field(label="Assault" v-model="value.assault")
+          v-text-field(label="Assault" v-model="value.assault" color="red")
         v-col
-          v-text-field(label="Defense" v-model="value.defense")
+          v-text-field(label="Defense" v-model="value.defense" color="yellow darken-3")
         v-col
-          v-text-field(label="Navigation" v-model="value.navigation")
+          v-text-field(label="Navigation" v-model="value.navigation" color="cyan")
 </template>
 
 <script>
