@@ -29,7 +29,7 @@ export const actions = {
     try {
       commit('setLoading', true)
       const fleet = await this.$axios.$post(
-        `/campaigns/${campaign.id}/fleets`,
+        `private/campaigns/${campaign.id}/${payload.faction}/fleets`,
         payload
       )
       commit('setFleet', fleet)

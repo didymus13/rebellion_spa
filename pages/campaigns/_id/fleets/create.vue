@@ -59,8 +59,8 @@ export default {
   methods: {
     setFleetFaction(faction) {
       switch (this.$route.query.faction) {
-        case 'rebel':
-          return 'rebel'
+        case 'rebels':
+          return 'rebels'
         case 'empire':
           return 'empire'
       }

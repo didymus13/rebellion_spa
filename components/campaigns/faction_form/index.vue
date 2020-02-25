@@ -57,7 +57,7 @@ export default {
     value: { type: Object, required: true },
     img: { type: String, required: true },
     fleets: { type: Array, default: () => [] },
-    faction: { type: String }
+    faction: { type: String, default: null }
   },
 
   computed: {
