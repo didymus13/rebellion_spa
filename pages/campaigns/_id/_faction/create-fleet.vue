@@ -1,6 +1,5 @@
 <template lang="pug">
-  #campaign-create
-    h1.title Campaign Create
+  #create-fleet Fleet Creation page
 </template>
 
 <script>

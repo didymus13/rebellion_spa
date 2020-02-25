@@ -1,6 +1,5 @@
 <template lang="pug">
-  #campaign-create
-    h1.title Campaign Create
+  #faction-overview-details {{ $route.params.faction }} details
 </template>
 
 <script>

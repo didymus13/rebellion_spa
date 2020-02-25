@@ -1,11 +1,14 @@
 <template lang="pug">
   #fleet-update
+    div {{ this.$auth}}
     fleet-form(v-model="form" :loading="loading" :dirty="isDirty" @save="update")
 </template>
 
 <script>
 import { mapState } from 'vuex'
 import cloneDeep from 'lodash/cloneDeep'
+import get from 'lodash/get'
+import find from 'lodash/find'
 import FleetForm from '@/components/campaigns/fleets/form'
 
 export default {
@@ -17,8 +20,12 @@ export default {
   }),
 
   computed: {
-    ...mapState('fleets', ['fleet', 'loading']),
-    ...mapState('campaigns', ['campaign'])
+    ...mapState('campaigns', ['campaign', 'loading']),
+    fleet() {
+      const faction = this.$route.params.faction
+      const fleets = get(this.campaign, [faction, 'fleets'])
+      return find(fleets, { _id: this.$route.params.fleetId })
+    }
   },
 
   watch: {
@@ -37,20 +44,15 @@ export default {
   },
 
   fetch({ store, params }) {
-    if (params.payload) store.commit('fleets/setFleet', params.payload)
-    store.dispatch('fleets/show', params.fleetId)
     store.dispatch('campaigns/show', params.id)
   },
 
   methods: {
-    async update() {
-      try {
-        await this.$store.dispatch('fleets/update', this.form)
-        this.$toast.success('Fleet updated')
-        this.isDirty = false
-      } catch (err) {
-        this.$toast.error(err)
-      }
+    update() {
+      this.$store.dispatch('createFleet', {
+        faction: this.$route.params.faction,
+        fleet: this.fleet
+      })
     }
   }
 }

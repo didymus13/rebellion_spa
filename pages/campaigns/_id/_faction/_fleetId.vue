@@ -1,6 +1,5 @@
 <template lang="pug">
-  #campaign-create
-    h1.title Campaign Create
+  #fleet-editor This is the fleet editor page
 </template>
 
 <script>

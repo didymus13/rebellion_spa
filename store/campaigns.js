@@ -1,3 +1,5 @@
+import get from 'lodash/get'
+
 export const state = () => ({
   campaigns: [],
   campaign: {},
@@ -14,6 +16,11 @@ export const mutations = {
   },
   setLoading(state, loading) {
     state.loading = loading
+  },
+
+  addFleet(state, { faction, fleet }) {
+    const fleets = get(state.campaign, [faction, 'fleets'])
+    fleets.push(fleet)
   }
 }
 
@@ -67,5 +74,18 @@ export const actions = {
   async delete({ dispatch }, id) {
     await this.$axios.$delete(`/private/campaigns/${id}`)
     await dispatch('find')
+  },
+
+  // fleet Management
+  // params: { fleet, faction }
+  createFleet({ commit }, params) {
+    try {
+      commit('setLoading', true)
+      commit('addFleet', params)
+    } catch (err) {
+      throw err
+    } finally {
+      commit('setLoading', false)
+    }
   }
 }

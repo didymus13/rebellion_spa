@@ -40,12 +40,7 @@ export default {
   }),
 
   computed: {
-    ...mapState('campaigns', {
-      campaign: (state) => state.campaign
-    }),
-    ...mapState('fleets', {
-      loading: (state) => state.loading
-    })
+    ...mapState('campaigns', ['campaign', 'loading'])
   },
 
   fetch({ store, params, query }) {
@@ -68,19 +63,8 @@ export default {
     },
 
     async save() {
-      try {
-        await this.$store.dispatch('fleets/create', {
-          payload: this.fleet,
-          campaign: this.campaign
-        })
-        this.$toast.success('Fleet created')
-        this.$router.push({
-          name: 'campaigns-id',
-          params: { id: this.campaign._id }
-        })
-      } catch (err) {
-        this.$toast.error(err)
-      }
+      const params = { fleet: this.fleet, faction: this.$route.params.faction }
+      await this.$store.dispatch('campaigns/createFleet', params)
     }
   }
 }
