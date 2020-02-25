@@ -6,13 +6,17 @@
       v-tab(v-for="(tab,i) in tabs" :key="i" :to="tab.to" nuxt) {{ tab.label }}
         v-icon {{ tab.icon }}
     nuxt-child
+
+    v-fab-transition
+      v-btn(fab v-show="dirty" fixed bottom right color="primary" :loading="loading" @click="$store.dispatch('campaigns/save')")
+        v-icon mdi-content-save
 </template>
 
 <script>
 import { mapState } from 'vuex'
 export default {
   computed: {
-    ...mapState('campaigns', ['campaign']),
+    ...mapState('campaigns', ['campaign', 'dirty', 'loading']),
     tabs() {
       return [
         {
@@ -26,7 +30,7 @@ export default {
             name: 'campaigns-id-faction',
             params: { id: this.campaign._id, faction: 'rebels' }
           },
-          icon: 'mdi-rebels'
+          icon: 'fab fa-rebel'
         },
         {
           label: 'The galactic empire',
@@ -34,7 +38,7 @@ export default {
             name: 'campaigns-id-faction',
             params: { id: this.campaign._id, faction: 'empire' }
           },
-          icon: 'mdi-death-star'
+          icon: 'fab fa-empire'
         }
       ]
     }

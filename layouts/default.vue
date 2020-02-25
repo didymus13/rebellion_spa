@@ -96,6 +96,15 @@
 <script>
 import { mapState } from 'vuex'
 export default {
+  head: () => ({
+    link: [
+      {
+        href: 'https://use.fontawesome.com/releases/v5.0.13/css/all.css',
+        rel: 'stylesheet'
+      }
+    ]
+  }),
+
   data() {
     return {
       clipped: false,
