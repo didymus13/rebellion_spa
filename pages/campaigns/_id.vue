@@ -2,8 +2,8 @@
   #campaign-show
     h1.title {{ $route.params.id }} Top Level Scoring
 
-    v-tabs(icons-and-text)
-      v-tab(v-for="(tab,i) in tabs" :key="i" :to="tab.to" nuxt) {{ tab.label }}
+    v-tabs(centered dark)
+      v-tab(v-for="(tab,i) in tabs" :key="i" :to="tab.to" nuxt)
         v-icon {{ tab.icon }}
     nuxt-child
 
