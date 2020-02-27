@@ -3,7 +3,10 @@ import cloneDeep from 'lodash/cloneDeep'
 
 export const state = () => ({
   campaigns: [],
-  campaign: {},
+  campaign: {
+    empire: { points: {} },
+    rebels: { points: {} }
+  },
   loading: false,
   dirty: false
 })
@@ -54,6 +57,7 @@ export const actions = {
       this.$axios.$get(`/private/campaigns/${id}`)
     ])
     commit('setCampaign', campaign)
+    commit('setDirty', false)
   },
 
   async save({ state, dispatch, commit, getters }, payload) {

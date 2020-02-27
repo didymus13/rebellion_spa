@@ -1,18 +1,20 @@
 <template lang="pug">
   #faction-detail
-    h1.title {{ $route.params.faction }} details
-
-    v-btn(:to="{ name: 'campaigns-id-faction', params: { faction: $route.params.faction } }" ) Faction Overview
-
-    v-btn(:to="{ name: 'campaigns-id-faction-create-fleet', params: { id: $route.params.id, faction: $route.params.faction } }" ) Create Me A Fleet
-
-    v-btn(:to="{ name: 'campaigns-id-faction-fleetId', params: { id: $route.params.id, faction: $route.params.faction, fleetId: 'some-fleet' } }" ) Show Me A Fleet
+    h1.display-1 {{ faction.name }}
 
     nuxt-child
 </template>
 
 <script>
-export default {}
-</script>
+import { mapState } from 'vuex'
+export default {
+  computed: {
+    ...mapState('campaigns', ['campaign']),
 
-<style lang="css" scoped></style>
+    faction() {
+      const isEmpire = this.$route.params.faction === 'empire'
+      return isEmpire ? this.campaign.empire : this.campaign.rebels
+    }
+  }
+}
+</script>
