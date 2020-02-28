@@ -89,18 +89,5 @@ export const actions = {
   async delete({ dispatch }, id) {
     await this.$axios.$delete(`/private/campaigns/${id}`)
     await dispatch('find')
-  },
-
-  // fleet Management
-  // params: { fleet, faction }
-  createFleet({ commit }, params) {
-    try {
-      commit('setLoading', true)
-      commit('addFleet', params)
-    } catch (err) {
-      throw err
-    } finally {
-      commit('setLoading', false)
-    }
   }
 }

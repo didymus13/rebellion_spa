@@ -1,23 +1,24 @@
 <template lang="pug">
-  div
-    v-toolbar.grey.lighten-2(flat)
-      v-toolbar-title Commander abilities
+  v-card
+    v-toolbar(flat dark)
+      v-toolbar-title Ships ({{ total }} points)
       v-spacer
       v-dialog(v-model="dialog" max-width="500px")
         template(v-slot:activator="{ on }")
           v-btn(icon v-on="on")
             v-icon mdi-plus-circle
 
-        commander-ability(@add="add")
+        ship-form(@add="add")
 
-    commander-ability-list(v-model="value")
+    ship-list(v-model="value")
 </template>
 
 <script>
-import CommanderAbility from '@/components/campaigns/fleets/CommanderAbilities/CommanderAbility'
-import CommanderAbilityList from '@/components/campaigns/fleets/CommanderAbilities/CommanderAbilityList'
+import sumBy from 'lodash/sumBy'
+import ShipForm from '@/components/campaigns/FleetForm/Ships/ShipForm'
+import ShipList from '@/components/campaigns/FleetForm/Ships/ShipList'
 export default {
-  components: { CommanderAbility, CommanderAbilityList },
+  components: { ShipForm, ShipList },
 
   props: {
     value: { type: Array, default: () => [] }
@@ -26,6 +27,12 @@ export default {
   data: () => ({
     dialog: false
   }),
+
+  computed: {
+    total() {
+      return sumBy(this.value, 'points') || 0
+    }
+  },
 
   methods: {
     add(form) {

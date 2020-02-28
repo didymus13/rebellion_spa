@@ -2,18 +2,19 @@
   #faction-detail
     h1.display-1 {{ faction.name }}
 
-    nuxt-child
+    nuxt-child(v-model="faction")
 </template>
 
 <script>
-import { mapState } from 'vuex'
 export default {
-  computed: {
-    ...mapState('campaigns', ['campaign']),
+  props: {
+    value: { type: Object, default: () => [] }
+  },
 
+  computed: {
     faction() {
       const isEmpire = this.$route.params.faction === 'empire'
-      return isEmpire ? this.campaign.empire : this.campaign.rebels
+      return isEmpire ? this.value.empire : this.value.rebels
     }
   }
 }
