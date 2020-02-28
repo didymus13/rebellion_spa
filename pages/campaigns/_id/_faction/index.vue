@@ -11,12 +11,13 @@ v-row
         v-list-item(
           v-for="fleet in value.fleets"
           :key="fleet._id"
-          :to="{name: 'campaigns-id-faction-fleets-fleetId', params: { id: $route.params.id, faction: $route.params.faction, fleetId: fleet._id }}"
+          :to="{ name: 'campaigns-id-faction-fleets-fleetId', params: { id: $route.params.id, faction: $route.params.faction, fleetId: fleet._id } }"
           nuxt
         )
           v-list-item-content
             v-list-item-title ( {{ fleet.total }} ) {{ fleet.name }}
             v-list-item-subtitle {{ fleet.commander.name }}
+
       v-card-actions
         v-spacer
         v-btn(

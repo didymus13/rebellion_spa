@@ -1,6 +1,6 @@
 <template lang="pug">
 v-card
-  v-card-title Systems
+  v-card-title System ownership
     v-spacer
     v-text-field(v-model="search" append-icon="mdi-magnify" label="search" single-line hide-details)
 
