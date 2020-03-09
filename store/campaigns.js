@@ -87,10 +87,15 @@ export const actions = {
   },
 
   async createFleet({ state, dispatch }, { id, faction, fleet }) {
-    const campaign = await this.$axios.$post(
-      `/private/campaigns/${id}/${faction}/fleets`,
+    await this.$axios.$post(`/private/campaigns/${id}/${faction}/fleets`, fleet)
+    await dispatch('show', id)
+  },
+
+  async updateFleet({ state, dispatch }, { id, faction, fleetId, fleet }) {
+    await this.$axios.$put(
+      `/private/campaigns/${id}/${faction}/fleets/${fleetId}`,
       fleet
     )
-    await dispatch('show', campaign._id)
+    await dispatch('show', id)
   }
 }
