@@ -13,6 +13,9 @@
             v-list-item-content
               v-list-item-title {{ campaign.name }}
               v-list-item-subtitle Players: {{ campaign.playerCount }}
+            v-list-item-action(v-if="campaign.user === $auth.user.sub")
+              v-btn(@click.prevent="deleteCampaign(campaign)" icon)
+                v-icon(small color="red") mdi-delete
 </template>
 
 <script>
@@ -24,6 +27,15 @@ export default {
 
   fetch({ store }) {
     store.dispatch('campaigns/find')
+  },
+
+  methods: {
+    async deleteCampaign(campaign) {
+      if (confirm(`Delete campaign named: ${campaign.name} ?`)) {
+        await this.$store.dispatch('campaigns/delete', campaign._id)
+        this.$toast.success('Deleted')
+      }
+    }
   }
 }
 </script>
