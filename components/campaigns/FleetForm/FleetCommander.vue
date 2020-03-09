@@ -18,7 +18,7 @@
 
 <script>
 import sumBy from 'lodash/sumBy'
-import CommanderAbilities from '@/components/campaigns/fleets/CommanderAbilities'
+import CommanderAbilities from '@/components/campaigns/FleetForm/CommanderAbilities'
 export default {
   components: { CommanderAbilities },
 

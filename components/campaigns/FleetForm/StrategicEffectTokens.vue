@@ -8,9 +8,9 @@
         v-col
           v-text-field(type="number" label="Ally" v-model.number="value.ally")
         v-col
-          v-text-field(type="number" label="Destiny" v-model="value.destiny")
+          v-text-field(type="number" label="Destiny" v-model.number="value.destiny")
         v-col
-          v-text-field(type="number" label="Spynet" v-model="value.spynet")
+          v-text-field(type="number" label="Spynet" v-model.number="value.spynet")
 </template>
 
 <script>

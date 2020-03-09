@@ -1,8 +1,19 @@
+import get from 'lodash/get'
+import cloneDeep from 'lodash/cloneDeep'
+
 export const state = () => ({
   campaigns: [],
-  campaign: {},
-  loading: false
+  campaign: {
+    empire: { points: {} },
+    rebels: { points: {} }
+  },
+  loading: false,
+  dirty: false
 })
+
+export const getters = {
+  exists: (state) => !!state.campaign._id
+}
 
 export const mutations = {
   setCampaigns(state, list) {
@@ -10,10 +21,19 @@ export const mutations = {
   },
 
   setCampaign(state, campaign) {
-    state.campaign = campaign
+    state.campaign = cloneDeep(campaign)
   },
   setLoading(state, loading) {
     state.loading = loading
+  },
+
+  addFleet(state, { faction, fleet }) {
+    const fleets = get(state.campaign, [faction, 'fleets'])
+    fleets.push(fleet)
+  },
+
+  setDirty(state, dirty) {
+    state.dirty = dirty
   }
 }
 
@@ -37,10 +57,11 @@ export const actions = {
       this.$axios.$get(`/private/campaigns/${id}`)
     ])
     commit('setCampaign', campaign)
+    commit('setDirty', false)
   },
 
-  async save({ state, dispatch, commit }, payload) {
-    const action = state.campaign._id ? 'update' : 'create'
+  async save({ state, dispatch, commit, getters }, payload) {
+    const action = getters.exists ? 'update' : 'create'
     try {
       commit('setLoading', true)
       await dispatch(action, payload)
@@ -48,6 +69,7 @@ export const actions = {
       throw err
     } finally {
       commit('setLoading', false)
+      commit('setDirty', false)
     }
   },
 

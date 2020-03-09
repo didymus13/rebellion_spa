@@ -15,8 +15,8 @@
 
 <script>
 import sumBy from 'lodash/sumBy'
-import SquadronForm from '@/components/campaigns/fleets/Squadrons/SquadronForm'
-import SquadronList from '@/components/campaigns/fleets/Squadrons/SquadronList'
+import SquadronForm from '@/components/campaigns/FleetForm/Squadrons/SquadronForm'
+import SquadronList from '@/components/campaigns/FleetForm/Squadrons/SquadronList'
 
 export default {
   components: { SquadronForm, SquadronList },
