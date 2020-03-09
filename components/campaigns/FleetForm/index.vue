@@ -3,10 +3,6 @@
     v-row
       v-col
         v-text-field(label="Fleet name" v-model="value.name")
-
-    v-row
-      v-col
-        v-select(label="Faction" :items="factions" item-text="label" v-model="value.faction" disabled)
       v-col
         v-select(label="Fleet condition" v-model="value.condition" :items="conditions" item-text="label" clearable)
 
