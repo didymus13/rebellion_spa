@@ -19,7 +19,10 @@ import { mapState } from 'vuex'
 import debounce from 'lodash/debounce'
 
 export default {
-  props: ['value', 'label'],
+  props: {
+    value: { type: Object, required: true },
+    label: { type: String, default: '' }
+  },
 
   data: () => ({
     search: ''
