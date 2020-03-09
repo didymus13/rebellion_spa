@@ -20,7 +20,7 @@ import debounce from 'lodash/debounce'
 
 export default {
   props: {
-    value: { type: Object, required: true },
+    value: { type: Array, required: true },
     label: { type: String, default: '' }
   },
 
