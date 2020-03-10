@@ -86,23 +86,50 @@ export const actions = {
     await dispatch('find')
   },
 
-  async createFleet({ state, dispatch }, { id, faction, fleet }) {
-    await this.$axios.$post(`/private/campaigns/${id}/${faction}/fleets`, fleet)
-    await dispatch('show', id)
+  async createFleet({ state, dispatch, commit }, { id, faction, fleet }) {
+    try {
+      commit('setLoading', true)
+      await this.$axios.$post(
+        `/private/campaigns/${id}/${faction}/fleets`,
+        fleet
+      )
+      await dispatch('show', id)
+    } catch (err) {
+      throw err
+    } finally {
+      commit('setLoading', false)
+    }
   },
 
-  async updateFleet({ state, dispatch }, { id, faction, fleetId, fleet }) {
-    await this.$axios.$put(
-      `/private/campaigns/${id}/${faction}/fleets/${fleetId}`,
-      fleet
-    )
-    await dispatch('show', id)
+  async updateFleet(
+    { state, dispatch, commit },
+    { id, faction, fleetId, fleet }
+  ) {
+    try {
+      commit('setLoading', true)
+      await this.$axios.$put(
+        `/private/campaigns/${id}/${faction}/fleets/${fleetId}`,
+        fleet
+      )
+      await dispatch('show', id)
+    } catch (err) {
+      throw err
+    } finally {
+      commit('setLoading', false)
+    }
   },
 
-  async deleteFleet({ state, dispatch }, { id, faction, fleetId }) {
-    await this.$axios.$delete(
-      `/private/campaigns/${id}/${faction}/fleets/${fleetId}`
-    )
-    await dispatch('show', id)
+  async deleteFleet({ state, dispatch, commit }, { id, faction, fleetId }) {
+    try {
+      commit('setLoading', true)
+      await this.$axios.$delete(
+        `/private/campaigns/${id}/${faction}/fleets/${fleetId}`
+      )
+      await dispatch('show', id)
+    } catch (err) {
+      throw err
+    } finally {
+      commit('setLoading', false)
+    }
   }
 }
