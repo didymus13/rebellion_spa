@@ -4,11 +4,11 @@
       v-toolbar-title Objectives
     v-card-text
       v-row
-        v-col
+        v-col(cols="12" sm="4")
           v-text-field(label="Assault" v-model="value.assault" color="red")
-        v-col
+        v-col(cols="12" sm="4")
           v-text-field(label="Defense" v-model="value.defense" color="yellow darken-3")
-        v-col
+        v-col(cols="12" sm="4")
           v-text-field(label="Navigation" v-model="value.navigation" color="cyan")
 </template>
 
