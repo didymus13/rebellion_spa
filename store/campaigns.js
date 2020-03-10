@@ -1,4 +1,3 @@
-import get from 'lodash/get'
 import cloneDeep from 'lodash/cloneDeep'
 
 export const state = () => ({
@@ -23,13 +22,9 @@ export const mutations = {
   setCampaign(state, campaign) {
     state.campaign = cloneDeep(campaign)
   },
+
   setLoading(state, loading) {
     state.loading = loading
-  },
-
-  addFleet(state, { faction, fleet }) {
-    const fleets = get(state.campaign, [faction, 'fleets'])
-    fleets.push(fleet)
   },
 
   setDirty(state, dirty) {
@@ -89,5 +84,52 @@ export const actions = {
   async delete({ dispatch }, id) {
     await this.$axios.$delete(`/private/campaigns/${id}`)
     await dispatch('find')
+  },
+
+  async createFleet({ state, dispatch, commit }, { id, faction, fleet }) {
+    try {
+      commit('setLoading', true)
+      await this.$axios.$post(
+        `/private/campaigns/${id}/${faction}/fleets`,
+        fleet
+      )
+      await dispatch('show', id)
+    } catch (err) {
+      throw err
+    } finally {
+      commit('setLoading', false)
+    }
+  },
+
+  async updateFleet(
+    { state, dispatch, commit },
+    { id, faction, fleetId, fleet }
+  ) {
+    try {
+      commit('setLoading', true)
+      await this.$axios.$put(
+        `/private/campaigns/${id}/${faction}/fleets/${fleetId}`,
+        fleet
+      )
+      await dispatch('show', id)
+    } catch (err) {
+      throw err
+    } finally {
+      commit('setLoading', false)
+    }
+  },
+
+  async deleteFleet({ state, dispatch, commit }, { id, faction, fleetId }) {
+    try {
+      commit('setLoading', true)
+      await this.$axios.$delete(
+        `/private/campaigns/${id}/${faction}/fleets/${fleetId}`
+      )
+      await dispatch('show', id)
+    } catch (err) {
+      throw err
+    } finally {
+      commit('setLoading', false)
+    }
   }
 }

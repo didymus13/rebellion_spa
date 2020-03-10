@@ -7,11 +7,11 @@
       v-text-field(label="Fleet commander" v-model="value.name")
       v-row
         v-col
-          v-text-field(label="XP earned" type="number" v-model.number="value.xp")
+          v-text-field(label="XP earned" type="number" v-model.number="value.xp.total")
         v-col
           v-text-field(label="XP spent" type="number" :value="xpSpent" disabled)
         v-col
-          v-text-field(label="XP available" type="number" :value="value.xp - xpSpent || 0" disabled)
+          v-text-field(label="XP available" type="number" :value="value.xp.total - xpSpent || 0" disabled)
 
     commander-abilities(v-model="value.abilities")
 </template>

@@ -8,7 +8,6 @@
 
 <script>
 import { mapState } from 'vuex'
-import cloneDeep from 'lodash/cloneDeep'
 import FleetForm from '@/components/campaigns/FleetForm'
 export default {
   components: { FleetForm },
@@ -56,11 +55,11 @@ export default {
   methods: {
     async save() {
       try {
-        this.$store.commit('campaigns/addFleet', {
+        await this.$store.dispatch('campaigns/createFleet', {
+          id: this.$route.params.id,
           faction: this.$route.params.faction,
-          fleet: { ...this.form }
+          fleet: this.form
         })
-        await this.$store.dispatch('campaigns/save', cloneDeep(this.campaign))
         this.$router.push({
           name: 'campaigns-id-faction',
           params: {

@@ -17,6 +17,9 @@ v-row
           v-list-item-content
             v-list-item-title ( {{ fleet.total }} ) {{ fleet.name }}
             v-list-item-subtitle {{ fleet.commander.name }}
+          v-list-item-action(v-if="canDelete(fleet)")
+            v-btn(@click.prevent="destroy(fleet)" icon color="red")
+              v-icon(small) mdi-delete
 
       v-card-actions
         v-spacer
@@ -35,6 +38,24 @@ export default {
 
   props: {
     value: { type: Object, default: () => ({}) }
+  },
+
+  methods: {
+    canDelete(fleet) {
+      return (
+        this.value.grandAdmiral.sub === this.$auth.user.sub ||
+        fleet.fleet.player.sub === this.$auth.user.sub
+      )
+    },
+
+    async destroy(fleet) {
+      if (confirm(`Are you sure that you want to delete "${fleet.name}"`)) {
+        await this.$store.dispatch('campaigns/deleteFleet', {
+          ...this.$route.params,
+          fleetId: fleet._id
+        })
+      }
+    }
   }
 }
 </script>
