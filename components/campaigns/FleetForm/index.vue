@@ -24,14 +24,16 @@
 
     v-row
       v-col
-        ships(v-model="value.ships")
+        ships(v-model="value.ships" :fleet-total="fleetTotal")
 
     v-row
       v-col
-        squadrons(v-model="value.squadrons")
+        squadrons(v-model="value.squadrons" :fleet-total="fleetTotal")
 </template>
 
 <script>
+import sumBy from 'lodash/sumBy'
+// import get from 'lodash/get'
 import Objectives from '@/components/campaigns/FleetForm/Objectives'
 import BattleRecord from '@/components/campaigns/FleetForm/BattleRecord'
 import CommanderAbilities from '@/components/campaigns/FleetForm/CommanderAbilities'
@@ -65,7 +67,14 @@ export default {
       { label: 'Low morale', value: 'low-morale' },
       { label: 'Low fuel', value: 'low-fuel' },
       { label: 'Low supplies', value: 'low-supplies' }
-    ]
+    ],
+
+    fleetTotal() {
+      return (
+        sumBy(this.value.ships, 'points') +
+        sumBy(this.value.squadrons, 'points')
+      )
+    }
   }
 }
 </script>

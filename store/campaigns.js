@@ -97,5 +97,12 @@ export const actions = {
       fleet
     )
     await dispatch('show', id)
+  },
+
+  async deleteFleet({ state, dispatch }, { id, faction, fleetId }) {
+    await this.$axios.$delete(
+      `/private/campaigns/${id}/${faction}/fleets/${fleetId}`
+    )
+    await dispatch('show', id)
   }
 }

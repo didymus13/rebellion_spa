@@ -1,7 +1,7 @@
 <template lang="pug">
   v-card
     v-toolbar(flat dark)
-      v-toolbar-title Ships ({{ total }} points)
+      v-toolbar-title Ships ({{ total }} / {{ fleetTotal }} points)
       v-spacer
       v-dialog(v-model="dialog" max-width="500px")
         template(v-slot:activator="{ on }")
@@ -21,7 +21,8 @@ export default {
   components: { ShipForm, ShipList },
 
   props: {
-    value: { type: Array, default: () => [] }
+    value: { type: Array, default: () => [] },
+    fleetTotal: { type: Number, default: 0 }
   },
 
   data: () => ({

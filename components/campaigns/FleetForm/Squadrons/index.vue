@@ -1,7 +1,7 @@
 <template lang="pug">
   v-card
     v-toolbar(flat dark)
-      v-toolbar-title Squadrons ({{ total }} points)
+      v-toolbar-title Squadrons ({{ total }} / {{ fleetTotal }} points)
       v-spacer
       v-dialog(v-model="dialog" max-width="500px")
         template(v-slot:activator="{ on }")
@@ -22,7 +22,8 @@ export default {
   components: { SquadronForm, SquadronList },
 
   props: {
-    value: { type: Array, default: () => [] }
+    value: { type: Array, default: () => [] },
+    fleetTotal: { type: Number, default: 0 }
   },
 
   data: () => ({
