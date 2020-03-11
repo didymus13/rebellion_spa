@@ -1,6 +1,6 @@
 <template lang="pug">
 v-autocomplete(
-  v-model="value"
+  :value="value"
   :label="label"
   :items="users"
   :search-input.sync="search"
@@ -9,8 +9,10 @@ v-autocomplete(
   chips
   deletable-chips
   item-text="nickname"
-  item-value="_id"
+  return-object
   @change="$emit('input', $event)"
+  :rules="rules"
+  cache-items
 )
 </template>
 
@@ -21,7 +23,8 @@ import debounce from 'lodash/debounce'
 export default {
   props: {
     value: { type: Array, required: true },
-    label: { type: String, default: '' }
+    label: { type: String, default: '' },
+    rules: { type: Array, default: () => [] }
   },
 
   data: () => ({

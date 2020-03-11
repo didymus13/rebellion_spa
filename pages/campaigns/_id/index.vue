@@ -3,7 +3,7 @@
     v-card.my-4
       v-card-text
         v-row
-          v-col
+          v-col(cols="12" sm="4")
             v-text-field(v-model="value.name" label="Campaign name")
           v-col
             v-text-field(v-model.number="value.act" label="Act" type="number")

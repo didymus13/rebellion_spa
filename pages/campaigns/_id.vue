@@ -21,6 +21,20 @@
 import { mapState } from 'vuex'
 import cloneDeep from 'lodash/cloneDeep'
 export default {
+  head() {
+    return {
+      title: this.campaign.name,
+      meta: [
+        { name: 'description', content: 'A Rebellion in the Rim campaign' },
+        { property: 'og:title', content: this.campaign.name },
+        {
+          property: 'og:description',
+          content: 'A Rebellion in the Rim campaign'
+        }
+      ]
+    }
+  },
+
   computed: {
     ...mapState('campaigns', ['loading', 'dirty', 'campaign']),
     overview() {

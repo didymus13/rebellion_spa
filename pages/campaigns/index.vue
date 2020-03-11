@@ -4,7 +4,7 @@
       v-toolbar(color="primary" dark flat relative src="/pic4819168.webp")
         v-toolbar-title My campaigns
         template(v-slot:extension)
-          v-btn(fab color="secondary" bottom right absolute :to="{ name: 'campaigns-create' }")
+          v-btn(fab color="primary" bottom right absolute :to="{ name: 'campaigns-create' }")
             v-icon mdi-plus
 
       v-card-text

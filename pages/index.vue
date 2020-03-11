@@ -60,5 +60,22 @@
 </template>
 
 <script>
-export default {}
+export default {
+  head() {
+    return {
+      title: this.title,
+      meta: [
+        { name: 'description', content: this.description },
+        { property: 'og:title', content: this.title },
+        { property: 'og:description', content: this.description }
+      ]
+    }
+  },
+
+  data: () => ({
+    title: 'Galaxy Manager for Rebellion in the Rim',
+    description:
+      'A galaxy manager for the Star Wars: Armada Rebellion in the Rim campaign system'
+  })
+}
 </script>

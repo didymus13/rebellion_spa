@@ -1,146 +1,42 @@
-<template>
-  <v-app dark>
-    <v-navigation-drawer
-      v-model="drawer"
-      :mini-variant="miniVariant"
-      :clipped="clipped"
-      fixed
-      app
-    >
-      <v-list>
-        <v-list-item
-          v-for="(item, i) in items"
-          v-if="item.show"
-          :key="i"
-          :to="item.to"
-          router
-          exact
-        >
-          <v-list-item-action>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title v-text="item.title" />
-          </v-list-item-content>
-        </v-list-item>
+<template lang="pug">
+  v-app(dark)
+    main-menu(:mini="miniVariant" :drawer="drawer")
 
-        <!-- Auth -->
-        <v-list-item @click="$auth.loginWith('auth0')" v-if="!$auth.loggedIn">
-          <v-list-item-action>
-            <v-icon>mdi-login</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>Login</v-list-item-content>
-        </v-list-item>
+    v-app-bar.yellow--text(fixed app color="black" clipped-left)
+      v-app-bar-nav-icon(@click.stop="drawer = !drawer" color="yellow")
+      v-btn(@click.stop="miniVariant = !miniVariant" icon)
+        v-icon(color="yellow") mdi-{{ `chevron-${miniVariant ? 'right' : 'left'}` }}
+      v-toolbar-title RitR Galaxy Manager
 
-        <v-list-item @click="$auth.logout()" v-if="$auth.loggedIn">
-          <v-list-item-action>
-            <v-icon>mdi-logout</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Logout</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
-    <v-app-bar
-      :clipped-left="clipped"
-      fixed
-      app
-      class="yellow--text"
-      color="black"
-    >
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" color="yellow" />
-      <v-btn @click.stop="miniVariant = !miniVariant" icon>
-        <v-icon color="yellow"
-          >mdi-{{ `chevron-${miniVariant ? 'right' : 'left'}` }}</v-icon
-        >
-      </v-btn>
-      <v-btn @click.stop="clipped = !clipped" icon>
-        <v-icon color="yellow">mdi-application</v-icon>
-      </v-btn>
-      <v-btn @click.stop="fixed = !fixed" icon>
-        <v-icon color="yellow">mdi-minus</v-icon>
-      </v-btn>
-      <v-toolbar-title v-text="title" />
-      <v-spacer />
-      <v-btn @click.stop="rightDrawer = !rightDrawer" icon>
-        <v-icon color="yellow">mdi-menu</v-icon>
-      </v-btn>
-    </v-app-bar>
-    <v-content>
-      <v-container>
-        <nuxt />
-      </v-container>
-    </v-content>
-    <v-navigation-drawer v-model="rightDrawer" :right="right" temporary fixed>
-      <v-list>
-        <v-list-item @click.native="right = !right">
-          <v-list-item-action>
-            <v-icon light>
-              mdi-repeat
-            </v-icon>
-          </v-list-item-action>
-          <v-list-item-title>Switch drawer (click me)</v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
-    <v-footer app class="caption">
-      <span>
-        &copy; 2020. Star Wars: Armada is property of Fantasy Flight Games. No
-        copyright infringement is intended.
-      </span>
-    </v-footer>
-  </v-app>
+    v-content
+      v-container
+        nuxt
+
+    v-footer.caption(app)
+      span &copy; 2020. Star Wars: Armada is property of Fantasy Flight Games. No copyright infringement is intended.
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import MainMenu from '@/components/MainMenu'
 export default {
-  head: () => ({
-    link: [
-      {
-        href: 'https://use.fontawesome.com/releases/v5.0.13/css/all.css',
-        rel: 'stylesheet'
-      }
-    ]
-  }),
+  components: { MainMenu },
 
-  data() {
+  head() {
     return {
-      clipped: false,
-      drawer: null,
-      miniVariant: false,
-      right: true,
-      rightDrawer: false,
-      title: 'Vuetify.js'
-    }
-  },
-
-  computed: {
-    ...mapState('auth', {
-      loggedIn: (state) => state.loggedIn
-    }),
-    items() {
-      return [
-        { icon: 'mdi-apps', title: 'Welcome', to: '/', show: true },
+      meta: [{ property: 'og:locale', content: 'en_CA' }],
+      link: [
         {
-          icon: 'mdi-death-star',
-          title: 'My campaigns',
-          to: { name: 'campaigns' },
-          show: this.loggedIn
+          href: 'https://use.fontawesome.com/releases/v5.0.13/css/all.css',
+          rel: 'stylesheet'
         }
       ]
     }
   },
 
-  watch: {
-    loggedIn: {
-      immediate: true,
-      handler() {
-        if (this.$auth.loggedIn) {
-          this.$axios.$post('/private/users/sync', this.$auth.user)
-        }
-      }
+  data() {
+    return {
+      drawer: null,
+      miniVariant: false
     }
   }
 }
