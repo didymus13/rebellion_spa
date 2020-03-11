@@ -2,7 +2,7 @@ import colors from 'vuetify/es5/util/colors'
 require('dotenv').config()
 
 export default {
-  mode: 'universal',
+  mode: 'spa',
   /*
    ** Headers of the page
    */
@@ -61,7 +61,7 @@ export default {
   auth: {
     redirect: {
       login: '/',
-      callback: '/auth/signed-in'
+      callback: '/auth/signed-in/'
     },
     strategies: {
       auth0: {
