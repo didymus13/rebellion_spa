@@ -2,7 +2,7 @@ import colors from 'vuetify/es5/util/colors'
 require('dotenv').config()
 
 export default {
-  mode: 'spa',
+  mode: 'universal',
   /*
    ** Headers of the page
    */
@@ -31,7 +31,7 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['~/plugins/toast'],
+  plugins: [{ src: '~/plugins/toast', mode: 'client' }],
   /*
    ** Nuxt.js dev-modules
    */
