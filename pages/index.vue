@@ -1,7 +1,7 @@
 <template>
   <v-layout column justify-center align-center>
-    <v-img src="/Armada-Logo.png" max-width="500px" />
     <v-flex xs12 sm8 md6>
+      <v-img src="/Armada-Logo.png" max-width="500px" />
       <v-card>
         <v-card-title class="headline">
           Welcome to the Vuetify + Nuxt.js template
@@ -61,6 +61,8 @@
 
 <script>
 export default {
+  auth: false,
+
   head() {
     return {
       title: this.title,
