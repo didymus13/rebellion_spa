@@ -1,6 +1,6 @@
 <template lang="pug">
   #campaign-index
-    v-card
+    v-card(:loading="loading")
       v-toolbar(color="primary" dark flat relative src="/pic4819168.webp")
         v-toolbar-title My campaigns
         template(v-slot:extension)
@@ -22,7 +22,7 @@
 import { mapState } from 'vuex'
 export default {
   computed: {
-    ...mapState('campaigns', ['campaigns'])
+    ...mapState('campaigns', ['campaigns', 'loading'])
   },
 
   fetch({ store }) {
